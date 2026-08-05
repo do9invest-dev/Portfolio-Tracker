@@ -1,5 +1,16 @@
+# Core
+# Streamlit 1.50.0 is Tornado-based (it does not depend on starlette at all),
+# so it is NOT affected by the starlette 1.4.0 GZipResponder breakage that
+# hits Streamlit 1.61.x. Keep this pinned below 1.61 until that is fixed
+# upstream. (Verified 2026-08-05.)
 streamlit==1.50.0
-pandas==2.3.2
-numpy==2.3.2
-yfinance==0.2.65
-plotly==6.3.0
+
+# pandas 2.3.2 ships no cp314 wheel. Streamlit Community Cloud builds on
+# Python 3.14, so 2.3.2 falls back to a source build and fails. 2.3.3 is the
+# first 2.x release with cp314 wheels. Staying <3 avoids pandas 3.0's
+# copy-on-write / string-dtype changes.
+pandas>=2.3.3,<3
+
+numpy>=2.3.2,<3
+yfinance>=0.2.65,<0.3
+plotly>=6.3.0,<7
